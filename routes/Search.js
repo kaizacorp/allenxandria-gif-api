@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
   const db = mongoose.connection;
   //console.log("Connected to MongoDB database...");
   const q = await Gif.find({ tags: { $in: req.query.tags } });
-  res.send(q[0]);
+  res.send(q);
 });
 
 module.exports = router;
