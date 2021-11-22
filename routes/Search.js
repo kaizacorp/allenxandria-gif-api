@@ -11,13 +11,14 @@ router.get("/", async (req, res) => {
   mongoose.connect(
     `mongodb+srv://kaiza:${process.env.PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
   );
+
   const db = mongoose.connection;
   const q = await Gif.aggregate([
     {
       $search: {
         index: "tags",
         text: {
-          query: req.query.tags,
+          query: req.query.tags.toLowerCase(),
           path: "tags",
           score: {
             function: {
