@@ -12,8 +12,26 @@ router.get("/", async (req, res) => {
     `mongodb+srv://kaiza:${process.env.PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
   );
   const db = mongoose.connection;
-  //console.log("Connected to MongoDB database...");
-  const q = await Gif.find({ tags: { $in: req.query.tags } });
+  const q = await Gif.aggregate([
+    {
+      $search: {
+        index: "tags",
+        text: {
+          query: req.query.tags,
+          path: "tags",
+          score: {
+            function: {
+              score: "relevance",
+            },
+          },
+        },
+      },
+    },
+    { $limit: 5 },
+    {
+      $project: { _id: 0, url: 1, tags: 1, score: { $meta: "searchScore" } },
+    },
+  ]);
   res.send(q);
 });
 
