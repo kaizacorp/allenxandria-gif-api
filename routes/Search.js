@@ -4,10 +4,11 @@ const mongoose = require("mongoose");
 const Gif = require("../models/Gif");
 require("dotenv").config();
 
-// Get
+// Responds with an array of objects matching given tags (sorted by best match)
+// {url, tags, score} form
+// limit of 5
 router.get("/", async (req, res) => {
   // Database
-
   mongoose.connect(
     `mongodb+srv://kaiza:${process.env.PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
   );
@@ -34,6 +35,7 @@ router.get("/", async (req, res) => {
     },
   ]);
   res.send(q);
+  db.close();
 });
 
 module.exports = router;
