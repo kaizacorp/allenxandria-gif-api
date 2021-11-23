@@ -16,9 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/new", async (req, res) => {
-  mongoose.connect(
-    `mongodb+srv://kaiza:${process.env.PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
-  );
+  await connectToMongo();
   const db = mongoose.connection;
   const newGif = new Gif(req.body);
   const savedGif = await newGif.save();
@@ -32,3 +30,10 @@ app.use("/random", RandomRoute);
 
 // Starting server
 app.listen(3000, console.log("Listening on port 3000"));
+
+const connectToMongo = async () => {
+  await mongoose.connect(
+    `mongodb+srv://kaiza:${process.env.PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
+  );
+  return mongoose;
+};
