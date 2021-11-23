@@ -1,8 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-require("dotenv").config();
 const Gif = require("./models/Gif");
+require("dotenv").config();
 
 // Create express app
 const app = express();
@@ -24,9 +24,11 @@ app.post("/new", async (req, res) => {
 });
 const SearchRoute = require("./routes/Search");
 const RandomRoute = require("./routes/Random");
+const CountRoute = require("./routes/Count");
 
 app.use("/search", SearchRoute);
 app.use("/random", RandomRoute);
+app.use("/count", CountRoute);
 
 // Starting server
 app.listen(3000, console.log("Listening on port 3000"));
