@@ -10,7 +10,9 @@ router.get("/", async (req, res) => {
   await connectToMongo();
   const db = mongoose.connection;
   const count = await Gif.countDocuments();
-  res.json(count);
+  let gifCount = { count: count };
+
+  res.send(gifCount);
   db.close();
 });
 
