@@ -9,10 +9,7 @@ require("dotenv").config();
 // limit of 5
 router.get("/", async (req, res) => {
   // Database
-  mongoose.connect(
-    `mongodb+srv://kaiza:${process.env.PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
-  );
-
+  await connectToMongo();
   const db = mongoose.connection;
   const q = await Gif.aggregate([
     {
@@ -37,5 +34,12 @@ router.get("/", async (req, res) => {
   res.send(q);
   db.close();
 });
+
+const connectToMongo = async () => {
+  await mongoose.connect(
+    `mongodb+srv://kaiza:${process.env.PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
+  );
+  return mongoose;
+};
 
 module.exports = router;

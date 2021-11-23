@@ -7,9 +7,7 @@ require("dotenv").config();
 // Responds with a random Allen gif
 router.get("/", async (req, res) => {
   // Database
-  mongoose.connect(
-    `mongodb+srv://kaiza:${process.env.PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
-  );
+  await connectToMongo();
   const db = mongoose.connection;
   const count = await Gif.countDocuments();
   const random = Math.floor(Math.random() * count);
@@ -18,4 +16,10 @@ router.get("/", async (req, res) => {
   db.close();
 });
 
+const connectToMongo = async () => {
+  await mongoose.connect(
+    `mongodb+srv://kaiza:${process.env.PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
+  );
+  return mongoose;
+};
 module.exports = router;
