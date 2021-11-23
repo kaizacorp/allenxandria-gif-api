@@ -14,13 +14,15 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.send("GET: default route");
 });
-app.post("/new", (req, res) => {
+
+app.post("/new", async (req, res) => {
   mongoose.connect(
     `mongodb+srv://kaiza:${process.env.PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
   );
   const db = mongoose.connection;
-  res.send("POST: default route");
-  db.close();
+  const newGif = new Gif(req.body);
+  const savedGif = await newGif.save();
+  res.json(savedGif);
 });
 const SearchRoute = require("./routes/Search");
 const RandomRoute = require("./routes/Random");
