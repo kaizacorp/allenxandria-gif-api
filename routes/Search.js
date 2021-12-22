@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
     },
   ]);
   res.send(q);
-  db.close();
+  //db.close();
 });
 
 const connectToMongo = async () => {

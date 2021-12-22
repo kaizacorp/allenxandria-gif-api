@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   const random = Math.floor(Math.random() * count);
   const gif = await Gif.findOne().skip(random);
   res.send(gif);
-  db.close();
+  //db.close();
 });
 
 const connectToMongo = async () => {

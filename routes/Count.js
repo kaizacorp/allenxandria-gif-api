@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   let gifCount = { count: count };
 
   res.send(gifCount);
-  db.close();
+  //db.close();
 });
 
 const connectToMongo = async () => {
