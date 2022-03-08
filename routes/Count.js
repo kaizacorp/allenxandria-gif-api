@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 
 const connectToMongo = async () => {
   await mongoose.connect(
-    `mongodb+srv://kaiza:${process.env.PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
   );
   return mongoose;
 };
