@@ -31,7 +31,11 @@ router.get("/", async (req, res) => {
       $project: { _id: 0, url: 1, tags: 1, score: { $meta: "searchScore" } },
     },
   ]);
-  res.send(q[0]); // return top search result only
+  if (!q) {
+    res.send(q); // empty json response if no matching tags
+  } else {
+    res.send(q[0]); // respond with top search result only
+  }
   //db.close();
 });
 
