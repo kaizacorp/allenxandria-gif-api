@@ -30,7 +30,6 @@ router.get("/", async (req, res) => {
       $project: { _id: 0, url: 1, tags: 1, score: { $meta: "searchScore" } },
     },
   ]);
-  console.log(q);
   if (q.length === 0) {
     res.send({}); // empty json response if no matching tags
   } else {
