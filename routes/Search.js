@@ -4,11 +4,10 @@ const mongoose = require("mongoose");
 const Gif = require("../models/Gif");
 require("dotenv").config();
 
-// Responds with an array of objects matching given tags (sorted by best match)
+// Responds with json of best match
 // {url, tags, score} form
 // limit of 5
 router.get("/", async (req, res) => {
-  // Database
   await connectToMongo();
   const db = mongoose.connection;
   const q = await Gif.aggregate([
@@ -37,7 +36,6 @@ router.get("/", async (req, res) => {
   } else {
     res.send(q[0]); // respond with top search result only
   }
-  //db.close();
 });
 
 const connectToMongo = async () => {
