@@ -6,14 +6,12 @@ require("dotenv").config();
 
 // Responds with a random Allen gif
 router.get("/", async (req, res) => {
-  // Database
   await connectToMongo();
   const db = mongoose.connection;
   const count = await Gif.countDocuments();
   const random = Math.floor(Math.random() * count);
   const gif = await Gif.findOne().skip(random);
   res.send(gif);
-  //db.close();
 });
 
 const connectToMongo = async () => {

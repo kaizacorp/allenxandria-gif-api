@@ -6,14 +6,12 @@ require("dotenv").config();
 
 // Responds with the current total count of Allen gifs
 router.get("/", async (req, res) => {
-  // Database
   await connectToMongo();
   const db = mongoose.connection;
   const count = await Gif.countDocuments();
   let gifCount = { count: count };
 
   res.send(gifCount);
-  //db.close();
 });
 
 const connectToMongo = async () => {
