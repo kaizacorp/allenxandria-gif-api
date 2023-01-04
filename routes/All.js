@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const Gif = require("../models/Gif");
 require("dotenv").config();
 
-// Responds with a random Allen gif
+// Responds with all Allen gifs
 router.get("/", async (req, res) => {
   await connectToMongo();
   const db = mongoose.connection;
