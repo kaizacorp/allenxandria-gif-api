@@ -25,10 +25,12 @@ app.post("/new", async (req, res) => {
 const SearchRoute = require("./routes/Search");
 const RandomRoute = require("./routes/Random");
 const CountRoute = require("./routes/Count");
+const AllRoute = require("./routes/All");
 
 app.use("/search", SearchRoute);
 app.use("/random", RandomRoute);
 app.use("/count", CountRoute);
+app.use("/all", AllRoute);
 
 // Starting server
 app.listen(3000, console.log("Listening on port 3000"));
