@@ -5,6 +5,8 @@ const Gif = require("../models/Gif");
 require("dotenv").config();
 
 // Responds with all Allen gifs
+// defaults to oldest first
+// if recent=true gives newest first
 router.get("/", async (req, res) => {
   await connectToMongo();
   const db = mongoose.connection;
