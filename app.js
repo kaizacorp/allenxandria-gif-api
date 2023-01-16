@@ -17,14 +17,15 @@ app.get("/", (req, res) => {
 });
 
 app.post("/new", async (req, res) => {
-  if (isValidKey(req)) {
+  if (isValidKey(req, `${process.env.UPDATE_KEY}`)) {
     await connectToMongo();
     const db = mongoose.connection;
     const newGif = new Gif(req.body);
     const savedGif = await newGif.save();
     res.json(savedGif);
+  } else {
+    res.json("Invalid key provided.");
   }
-  res.json("Invalid key provided.");
 });
 const SearchRoute = require("./routes/Search");
 const RandomRoute = require("./routes/Random");

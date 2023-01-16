@@ -17,7 +17,7 @@ function shuffle(array) {
 // if recent=true, gives newest first (overrides random)
 // if random=true, gives all in random order
 router.get("/", async (req, res) => {
-  if (isValidKey(req)) {
+  if (isValidKey(req, `${process.env.ACCESS_KEY}`)) {
     await connectToMongo();
     const db = mongoose.connection;
     const all = await Gif.find();
