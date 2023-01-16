@@ -8,10 +8,14 @@ require("dotenv").config();
 router.get("/", async (req, res) => {
   await connectToMongo();
   const db = mongoose.connection;
-  const count = await Gif.countDocuments();
-  const random = Math.floor(Math.random() * count);
-  const gif = await Gif.findOne().skip(random);
-  res.send(gif);
+  const count = Number(req.query.count);
+  if (count && count > 0) {
+    const randomGifs = await Gif.aggregate([{ $sample: { size: count } }]);
+    res.send(randomGifs);
+  } else {
+    const randomGif = await Gif.aggregate([{ $sample: { size: 1 } }]);
+    res.send(randomGif[0]);
+  }
 });
 
 const connectToMongo = async () => {
