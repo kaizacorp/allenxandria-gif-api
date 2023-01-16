@@ -10,7 +10,7 @@ require("dotenv").config();
 router.get("/", async (req, res) => {
   await connectToMongo();
   const db = mongoose.connection;
-  const q = await Gif.aggregate([
+  const searchQuery = await Gif.aggregate([
     {
       $search: {
         index: "tags",
@@ -30,10 +30,10 @@ router.get("/", async (req, res) => {
       $project: { _id: 0, url: 1, tags: 1, score: { $meta: "searchScore" } },
     },
   ]);
-  if (q.length === 0) {
+  if (searchQuery.length === 0) {
     res.send({}); // empty json response if no matching tags
   } else {
-    res.send(q[0]); // respond with top search result only
+    res.send(searchQuery[0]); // respond with top search result only
   }
 });
 
