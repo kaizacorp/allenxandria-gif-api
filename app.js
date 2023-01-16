@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const Gif = require("./models/Gif");
+const isValidKey = require("./auth");
 require("dotenv").config();
 
 // Create express app
@@ -16,11 +17,14 @@ app.get("/", (req, res) => {
 });
 
 app.post("/new", async (req, res) => {
-  await connectToMongo();
-  const db = mongoose.connection;
-  const newGif = new Gif(req.body);
-  const savedGif = await newGif.save();
-  res.json(savedGif);
+  if (isValidKey(req)) {
+    await connectToMongo();
+    const db = mongoose.connection;
+    const newGif = new Gif(req.body);
+    const savedGif = await newGif.save();
+    res.json(savedGif);
+  }
+  res.json("Invalid key provided.");
 });
 const SearchRoute = require("./routes/Search");
 const RandomRoute = require("./routes/Random");

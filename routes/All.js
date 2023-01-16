@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Gif = require("../models/Gif");
+const isValidKey = require("../auth");
 require("dotenv").config();
 
 function shuffle(array) {
@@ -16,17 +17,21 @@ function shuffle(array) {
 // if recent=true, gives newest first (overrides random)
 // if random=true, gives all in random order
 router.get("/", async (req, res) => {
-  await connectToMongo();
-  const db = mongoose.connection;
-  const all = await Gif.find();
-  if (req.query.recent && req.query.recent === "true") {
-    all.reverse();
-    res.send(all);
-  } else if (req.query.random && req.query.random === "true") {
-    shuffle(all);
-    res.send(all);
+  if (isValidKey(req)) {
+    await connectToMongo();
+    const db = mongoose.connection;
+    const all = await Gif.find();
+    if (req.query.recent && req.query.recent === "true") {
+      all.reverse();
+      res.send(all);
+    } else if (req.query.random && req.query.random === "true") {
+      shuffle(all);
+      res.send(all);
+    } else {
+      res.send(all);
+    }
   } else {
-    res.send(all);
+    res.json("Invalid key provided.");
   }
 });
 
