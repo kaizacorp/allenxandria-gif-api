@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
       res.send(randomGif[0]);
     }
   } else {
-    res.json("Requires valid key");
+    res.json("Invalid key provided.");
   }
 });
 
