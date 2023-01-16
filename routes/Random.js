@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 const Gif = require("../models/Gif");
 require("dotenv").config();
 
-// Responds with a random Allen gif
+// Responds with random Allen gif(s)
+// if count provided will respond with that many
+// single gif otherwise
 router.get("/", async (req, res) => {
   await connectToMongo();
   const db = mongoose.connection;
