@@ -9,7 +9,12 @@ router.get("/", async (req, res) => {
   await connectToMongo();
   const db = mongoose.connection;
   const all = await Gif.find();
-  res.send(all);
+  if (req.query.recent && req.query.recent === "true") {
+    all.reverse();
+    res.send(all);
+  } else {
+    res.send(all);
+  }
 });
 
 const connectToMongo = async () => {
