@@ -43,7 +43,7 @@ router.get("/", async (req, res) => {
   } else {
     // respond with top search result only
     res.send(searchQuery[0]);
-    // update top result with current date + inc points
+    // update top result with timestamp + points
     const filter = { url: searchQuery[0].url };
     const update = {
       date: new Date().toUTCString(),

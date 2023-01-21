@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
     } else {
       const randomGif = await Gif.aggregate([{ $sample: { size: 1 } }]);
       res.send(randomGif[0]);
-      // update timestamp
+      // update timestamp + points
       const filter = { url: randomGif[0].url };
       const update = {
         date: new Date().toUTCString(),
