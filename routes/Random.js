@@ -22,6 +22,16 @@ router.get("/", async (req, res) => {
     } else {
       const randomGif = await Gif.aggregate([{ $sample: { size: 1 } }]);
       res.send(randomGif[0]);
+      // update timestamp
+      const filter = { url: randomGif[0].url };
+      const update = {
+        date: new Date().toUTCString(),
+      };
+
+      let doc = await Gif.findOneAndUpdate(filter, update, {
+        new: true,
+      });
+      console.log(doc);
     }
   } else {
     res.json("Invalid key provided.");
