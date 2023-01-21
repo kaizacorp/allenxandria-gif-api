@@ -31,7 +31,6 @@ router.get("/", async (req, res) => {
       let doc = await Gif.findOneAndUpdate(filter, update, {
         new: true,
       });
-      console.log(doc);
     }
   } else {
     res.json("Invalid key provided.");
