@@ -27,13 +27,32 @@ router.get("/", async (req, res) => {
     },
     { $limit: 5 },
     {
-      $project: { _id: 0, url: 1, tags: 1, score: { $meta: "searchScore" } },
+      $project: {
+        _id: 0,
+        url: 1,
+        tags: 1,
+        date: 1,
+        points: 1,
+        score: { $meta: "searchScore" },
+      },
     },
   ]);
   if (searchQuery.length === 0) {
-    res.send({}); // empty json response if no matching tags
+    // empty json response if no matching tags
+    res.send({});
   } else {
-    res.send(searchQuery[0]); // respond with top search result only
+    // respond with top search result only
+    res.send(searchQuery[0]);
+    // update top result with current date + inc points
+    const filter = { url: searchQuery[0].url };
+    const update = {
+      date: new Date().toUTCString(),
+      $inc: { points: 1 },
+    };
+
+    let doc = await Gif.findOneAndUpdate(filter, update, {
+      new: true,
+    });
   }
 });
 
