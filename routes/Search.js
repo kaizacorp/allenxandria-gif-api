@@ -47,7 +47,7 @@ router.get("/", async (req, res) => {
     const filter = { url: searchQuery[0].url };
     const update = {
       date: new Date().toUTCString(),
-      $inc: { points: 1 },
+      $inc: { points: 5 },
     };
 
     let doc = await Gif.findOneAndUpdate(filter, update, {

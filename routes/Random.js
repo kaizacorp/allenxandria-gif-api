@@ -26,6 +26,7 @@ router.get("/", async (req, res) => {
       const filter = { url: randomGif[0].url };
       const update = {
         date: new Date().toUTCString(),
+        $inc: { points: 1 },
       };
 
       let doc = await Gif.findOneAndUpdate(filter, update, {
