@@ -16,10 +16,16 @@ function shuffle(array) {
 // defaults to oldest first
 // if recent=true, gives newest first (overrides random)
 // if random=true, gives all in random order
+// if top=true, gives in order of most points
 router.get("/", async (req, res) => {
   if (isValidKey(req, `${process.env.ACCESS_KEY}`)) {
     await connectToMongo();
     const db = mongoose.connection;
+    if (req.query.top && req.query.top === "true") {
+      const top = await Gif.find().sort({ points: -1 });
+      res.send(top);
+      return;
+    }
     const all = await Gif.find();
     if (req.query.recent && req.query.recent === "true") {
       all.reverse();
