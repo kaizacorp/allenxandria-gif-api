@@ -8,8 +8,8 @@ Gifs are stored in a database in the format of:
 { 
   url: <gif url>,
   tags: <tags for gif>,
-  date: <date last accessed by request on /search route>
-  points: <score to track popularity on /search and /random routes>
+  date: <date last accessed by request on /search route>,
+  points: <score to track popularity on /search and /random routes>,
 }
 ```
 
@@ -54,7 +54,7 @@ For adding new gif urls +  tags to the database in the form of an object:
 ```
 {
   url: <gif url>,
-  tags: <tags for gif>
+  tags: <tags for gif>,
 }
 ```
 
