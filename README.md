@@ -18,19 +18,19 @@ Gifs are stored in a database in the format of:
 /search - params: `tags` (required)
 --
 
-returns url to gif with best match to given tags (will return 'boosh' gif url if no good match found.
+returns url to gif with best match to given `tags`. Will return empty object if no good match found.
 
 
 /tags - params: `url` (required)
 --
 
-returns all tags associated with given url (must match exactly).
+returns all tags associated with given `url` (must match exactly).
 
 
 /random - params: `count` (optional), `key` (required)
 --
 
-returns url to a random gif. If count provided, will return that many random gifs as an array of objects. Key required for acceess.
+returns url to a random gif. If `count` provided, will return that many random gifs as an array of objects. `Key` required for acceess.
 
 /count - params: none
 --
@@ -45,12 +45,14 @@ If `recent=true`, returns them in newest first order.
 If `top=true`, returns them in order of most points to least.
 If `random=true`, returns them in random order.
 
+Only one of the optional params is to be specified.
+
 # POST Routes:
 
 /new - params: `key` (required)
 --
 
-For adding new gif urls +  tags to the database in the form of an object:
+For adding new gif urls + tags to the database in the form of an object:
 ```
 {
   url: <gif url>,
