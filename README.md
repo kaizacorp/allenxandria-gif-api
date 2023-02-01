@@ -13,7 +13,7 @@ Gifs are stored in a database in the format of:
 }
 ```
 
-format:
+format for following routes + params:
 
 
 **/route** - params: `{required}` `[optional,params]`
