@@ -56,7 +56,7 @@ Only one of the optional params is to be specified.
 
 # POST Routes:
 
-/new - params: {key}
+/new - params: `{key}`
 --
 
 For adding new gif urls + tags to the database in the form of an object:
