@@ -13,34 +13,41 @@ Gifs are stored in a database in the format of:
 }
 ```
 
+format:
+
+
+**/route** - params: `{required}` `[optional,params]`
+
+
 # GET Routes:
 
-/search - params: `tags` (required)
+/search - params: `{tags}`
 --
 
 returns url to gif with best match to given `tags`. Will return empty object if no good match found.
 
 
-/tags - params: `url` (required)
+/tags - params: `{url}`
 --
 
 returns all tags associated with given `url` (must match exactly).
 
 
-/random - params: `count` (optional), `key` (required)
+/random - params: `{key}` `[count]`
 --
 
-returns url to a random gif. If `count` provided, will return that many random gifs as an array of objects. `Key` required for acceess.
+returns url to a random gif. If `count` provided, will return that many random gifs as an array of objects. `key` required for acceess.
 
 /count - params: none
 --
 
 returns the total number of gifs currently in the database.
 
-/all - params: `recent` (optional), `top` (optional), `random` (optional), `key` (required)
+/all - params: `{key}` `[recent, top, random]` 
 --
 
-returns the full array of all gifs as an array of objects. Default order is oldest first. 
+returns the full array of all gifs as an array of objects. Default order is oldest first.
+
 If `recent=true`, returns them in newest first order. 
 If `top=true`, returns them in order of most points to least.
 If `random=true`, returns them in random order.
@@ -49,7 +56,7 @@ Only one of the optional params is to be specified.
 
 # POST Routes:
 
-/new - params: `key` (required)
+/new - params: {key}
 --
 
 For adding new gif urls + tags to the database in the form of an object:
