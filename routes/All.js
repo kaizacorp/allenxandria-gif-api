@@ -13,32 +13,38 @@ function shuffle(array) {
 }
 
 // Responds with all Allen gifs
-// defaults to oldest first
-// if recent=true, gives newest first (overrides random)
-// if random=true, gives all in random order
-// if top=true, gives in order of most points
 router.get("/", async (req, res) => {
-  if (isValidKey(req, `${process.env.ACCESS_KEY}`)) {
-    await connectToMongo();
-    const db = mongoose.connection;
-    if (req.query.top && req.query.top === "true") {
-      const top = await Gif.find().sort({ points: -1 });
-      res.send(top);
-      return;
-    }
-    const all = await Gif.find();
-    if (req.query.recent && req.query.recent === "true") {
-      all.reverse();
-      res.send(all);
-    } else if (req.query.random && req.query.random === "true") {
-      shuffle(all);
-      res.send(all);
-    } else {
-      res.send(all);
-    }
-  } else {
+  if (!isValidKey(req, `${process.env.ACCESS_KEY}`)) {
     res.json("Invalid key provided.");
+    return;
   }
+
+  await connectToMongo();
+  const db = mongoose.connection;
+
+  if (req.query.top && req.query.top === "true") {
+    const top = await Gif.find().sort({ points: -1 });
+    res.send(top);
+    return;
+  }
+
+  const all = await Gif.find();
+
+  if (req.query.recent && req.query.recent === "true") {
+    all.reverse();
+    res.send(all);
+    return;
+  }
+
+  if (req.query.random && req.query.random === "true") {
+    shuffle(all);
+    res.send(all);
+    return;
+  }
+
+  // defaults to oldest first
+  res.send(all);
+  return;
 });
 
 const connectToMongo = async () => {
