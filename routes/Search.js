@@ -4,13 +4,23 @@ const mongoose = require("mongoose");
 const Gif = require("../models/Gif");
 require("dotenv").config();
 
+const connectToMongo = async () => {
+  await mongoose.connect(
+    `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
+  );
+  return mongoose;
+};
+
 // Responds with json of best match
 // {url, tags, score} form
-// limit of 5
 router.get("/", async (req, res) => {
+  const LIMIT = 5;
+  const POINTS = 5;
+
   await connectToMongo();
   const db = mongoose.connection;
-  const searchQuery = await Gif.aggregate([
+  // top search result only
+  const [searchQuery] = await Gif.aggregate([
     {
       $search: {
         index: "tags",
@@ -25,7 +35,7 @@ router.get("/", async (req, res) => {
         },
       },
     },
-    { $limit: 5 },
+    { $limit: LIMIT },
     {
       $project: {
         _id: 0,
@@ -37,17 +47,16 @@ router.get("/", async (req, res) => {
       },
     },
   ]);
-  if (searchQuery.length === 0) {
+  if (!searchQuery) {
     // empty json response if no matching tags
     res.send({});
   } else {
-    // respond with top search result only
-    res.send(searchQuery[0]);
+    res.send(searchQuery);
     // update top result with timestamp + points
-    const filter = { url: searchQuery[0].url };
+    const filter = { url: searchQuery.url };
     const update = {
       date: new Date().toUTCString(),
-      $inc: { points: 5 },
+      $inc: { points: POINTS },
     };
 
     let doc = await Gif.findOneAndUpdate(filter, update, {
@@ -55,12 +64,5 @@ router.get("/", async (req, res) => {
     });
   }
 });
-
-const connectToMongo = async () => {
-  await mongoose.connect(
-    `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
-  );
-  return mongoose;
-};
 
 module.exports = router;

@@ -5,6 +5,13 @@ const Gif = require("./models/Gif");
 const isValidKey = require("./auth");
 require("dotenv").config();
 
+const connectToMongo = async () => {
+  await mongoose.connect(
+    `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
+  );
+  return mongoose;
+};
+
 // Create express app
 const app = express();
 
@@ -16,17 +23,21 @@ app.get("/", (req, res) => {
   res.send("GET: default route");
 });
 
+// TODO: refactor POST route to it's own file
+// -> ran into errors attempting previously
 app.post("/new", async (req, res) => {
-  if (isValidKey(req, `${process.env.UPDATE_KEY}`)) {
-    await connectToMongo();
-    const db = mongoose.connection;
-    const newGif = new Gif(req.body);
-    const savedGif = await newGif.save();
-    res.json(savedGif);
-  } else {
+  if (!isValidKey(req, `${process.env.UPDATE_KEY}`)) {
     res.json("Invalid key provided.");
+    return;
   }
+
+  await connectToMongo();
+  const db = mongoose.connection;
+  const newGif = new Gif(req.body);
+  const savedGif = await newGif.save();
+  res.json(savedGif);
 });
+
 const SearchRoute = require("./routes/Search");
 const RandomRoute = require("./routes/Random");
 const CountRoute = require("./routes/Count");
@@ -41,10 +52,3 @@ app.use("/tags", TagsRoute);
 
 // Starting server
 app.listen(3000, console.log("Listening on port 3000"));
-
-const connectToMongo = async () => {
-  await mongoose.connect(
-    `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}?retryWrites=true&w=majority`
-  );
-  return mongoose;
-};
