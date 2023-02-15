@@ -70,8 +70,11 @@ For adding new gif urls + tags to the database in the form of an object:
 
 ## TODO:
 
-- examples in README
-- add pagination for /all routes
-- migrate from mongoose to mongodb driver? Check design patterns to abstract out first
-- make API public -> account creation, key generation, rate limiting
 - implement fuzzy search on /search route
+- add pagination for /all routes
+
+- make API public: 
+    + account creation
+    + key generation
+    + rate limiting
+- migrate from mongoose to mongodb driver? Check design patterns to abstract out first
