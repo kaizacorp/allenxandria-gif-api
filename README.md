@@ -24,7 +24,7 @@ format for following routes + params:
 /search - params: `{tags}`
 --
 
-returns url to gif with best match to given `tags`. Will return empty object if no good match found.
+returns url to gif with best match to given `tags`. Will return empty object `{}` if no match found.
 
 
 /tags - params: `{url}`
@@ -33,30 +33,31 @@ returns url to gif with best match to given `tags`. Will return empty object if 
 returns all tags associated with given `url` (must match exactly).
 
 
-/random - params: `{key}` `[count]`
+/random - params: `{access_key}` `[count]`
 --
 
-returns url to a random gif. If `count` provided, will return that many random gifs as an array of objects. `key` required for acceess.
+returns url to a random gif. If `count` provided, will return that many random gifs as an array of objects.
 
 /count - params: none
 --
 
 returns the total number of gifs currently in the database.
 
-/all - params: `{key}` `[recent, top, random]` 
+/all - params: `{access_key}` `[recent, top, random]` 
 --
 
-returns the full array of all gifs as an array of objects. Default order is oldest first.
+returns the full array of all gifs as an array of objects. 
 
-If `recent=true`, returns them in newest first order. 
-If `top=true`, returns them in order of most points to least.
-If `random=true`, returns them in random order.
+Default order is oldest first.
+`recent=true` returns them in newest first order. 
+`top=true` returns them in order of most points to least.
+`random=true` returns them in random order.
 
 Only one of the optional params is to be specified.
 
 # POST Routes:
 
-/new - params: `{key}`
+/new - params: `{update_key}`
 --
 
 For adding new gif urls + tags to the database in the form of an object:
