@@ -71,7 +71,7 @@ For adding new gif urls + tags to the database in the form of an object:
 
 ## TODO:
 
-- implement fuzzy search on /search route
+- implement fuzzy search on /search route -> with npm package?
 - add pagination for /all routes
 
 - make API public: 
