@@ -68,7 +68,6 @@ For adding new gif urls + tags to the database in the form of an object:
 }
 ```
 
-
 ## TODO:
 
 - implement fuzzy search on /search route -> with npm package?
@@ -78,4 +77,3 @@ For adding new gif urls + tags to the database in the form of an object:
     + account creation
     + key generation
     + rate limiting
-- migrate from mongoose to mongodb driver? Check design patterns to abstract out first
